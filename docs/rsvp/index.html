@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Respond · The Grand Tour</title>
+<meta name="theme-color" content="#141A2E">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23141A2E'/%3E%3Cpath d='M50 4 L96 50 L50 96 L4 50 Z' fill='none' stroke='%23C9A45C' stroke-width='4'/%3E%3Ctext x='50' y='46' font-family='serif' font-size='24' fill='%23C9A45C' text-anchor='middle'%3E50%3C/text%3E%3Ctext x='50' y='74' font-family='serif' font-size='24' fill='%23F3EEE4' text-anchor='middle'%3E30%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
+<style>
+:root {
+  --midnight: #141A2E;
+  --gold: #C9A45C;
+  --gold-text: #6E531F;
+  --gold-soft: #FBF3E2;
+  --pearl: #F3EEE4;
+  --paper: #FBF8F2;
+  --slate: #3A4566;
+  --mist: #D9D3C7;
+  --muted: #555261;
+  --rule: #CFC7B8;
+  --error: #8E2A22;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--pearl); color: var(--midnight); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 21px; line-height: 1.45; }
+a { color: var(--slate); }
+p { margin: 0; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 18px; }
+header { background: var(--midnight); color: var(--pearl); padding: 14px 0 22px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.back { display: inline-flex; align-items: center; min-height: 44px; color: var(--mist); font-size: 18px; text-decoration: none; }
+.back:hover { color: var(--pearl); }
+.who-now { font-size: 18px; color: var(--mist); text-align: right; }
+.who-now button { background: none; border: 0; padding: 0 0 0 4px; color: var(--gold); font: inherit; text-decoration: underline; cursor: pointer; min-height: 44px; }
+.lock { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+.lock svg { flex: none; width: 52px; height: 52px; }
+.lock .names { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+.lock .t { font-family: 'Cinzel', serif; font-weight: 500; font-size: 26px; letter-spacing: 0.04em; line-height: 1.1; }
+.lock .d { font-size: 18px; color: var(--mist); }
+main { padding: 26px 0 60px; }
+h1 { font-family: 'Cinzel', serif; font-weight: 500; font-size: clamp(26px, 7vw, 34px); letter-spacing: 0.03em; line-height: 1.15; margin: 0 0 8px; }
+.intro { font-size: 21px; color: var(--muted); margin-bottom: 8px; }
+fieldset { border: 0; padding: 0; margin: 28px 0 0; min-width: 0; }
+legend { padding: 0; margin-bottom: 4px; font-family: 'Cinzel', serif; font-weight: 500; font-size: 20px; letter-spacing: 0.03em; }
+.step { display: inline-block; margin-right: 8px; font-size: 14px; color: var(--slate); letter-spacing: 0.14em; }
+.hint { font-size: 18px; color: var(--muted); margin: 0 0 12px; }
+.names-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (min-width: 520px) { .names-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.choice { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 54px; padding: 10px 14px; background: var(--paper); border: 1px solid var(--rule); color: var(--midnight); font: inherit; font-size: 21px; text-align: left; cursor: pointer; }
+.choice:hover { border-color: var(--slate); }
+.choice[aria-pressed="true"] { background: var(--midnight); border-color: var(--midnight); color: var(--pearl); }
+.choice .tick { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--rule); }
+.choice[aria-pressed="true"] .tick { background: var(--gold); border-color: var(--gold); }
+.choice small { display: block; font-size: 17px; color: var(--muted); line-height: 1.3; }
+.choice[aria-pressed="true"] small { color: var(--mist); }
+.stack { display: flex; flex-direction: column; gap: 8px; }
+.partner { display: flex; align-items: center; gap: 12px; min-height: 48px; margin-top: 12px; font-size: 20px; cursor: pointer; }
+.partner input { width: 22px; height: 22px; accent-color: #141A2E; }
+.known { margin-top: 12px; padding: 12px 14px; background: var(--gold-soft); border: 1px solid var(--gold); font-size: 19px; }
+.extras { display: flex; flex-wrap: wrap; gap: 8px; }
+.extra { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 8px 14px; background: var(--paper); border: 1px solid var(--rule); border-radius: 23px; color: var(--midnight); font: inherit; font-size: 19px; cursor: pointer; }
+.extra b { font-weight: 600; color: var(--gold-text); }
+.extra[aria-pressed="true"] { background: var(--midnight); border-color: var(--midnight); color: var(--pearl); }
+.extra[aria-pressed="true"] b { color: var(--gold); }
+textarea { width: 100%; min-height: 96px; padding: 12px 14px; border: 1px solid var(--rule); background: var(--paper); font: inherit; font-size: 20px; color: var(--midnight); resize: vertical; }
+textarea:focus, .choice:focus-visible, .extra:focus-visible, .send:focus-visible, .partner input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.promise { margin-top: 28px; padding: 16px; background: var(--midnight); color: var(--pearl); font-size: 19px; }
+.promise b { color: var(--gold); font-weight: 600; }
+.send { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 56px; margin-top: 16px; background: var(--gold); color: var(--midnight); border: 0; font-family: 'Cinzel', serif; font-weight: 600; font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
+.send:disabled { background: var(--mist); color: var(--muted); cursor: not-allowed; }
+.need { margin-top: 10px; font-size: 18px; color: var(--muted); text-align: center; }
+.err { margin-top: 12px; padding: 12px 14px; border: 1px solid var(--error); color: var(--error); background: #FBEDEA; font-size: 19px; }
+[hidden] { display: none !important; }
+.done { text-align: center; }
+.done .big { font-family: 'Cinzel', serif; font-weight: 500; font-size: clamp(28px, 8vw, 38px); line-height: 1.15; margin: 12px 0 8px; }
+.done .badge { width: 74px; height: 74px; }
+.next { text-align: left; margin-top: 26px; padding: 0; list-style: none; }
+.next li { display: flex; gap: 14px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.next li:last-child { border-bottom: 1px solid var(--rule); }
+.next .when { flex: none; width: 104px; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); padding-top: 3px; }
+.after { display: flex; flex-direction: column; gap: 10px; margin-top: 26px; }
+.btn { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 22px; background: var(--midnight); color: var(--pearl); border: 0; font-family: 'Cinzel', serif; font-weight: 600; font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--midnight); border: 1px solid var(--midnight); }
+.demo { position: fixed; right: 10px; bottom: 10px; padding: 4px 10px; background: var(--gold); color: var(--midnight); font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.12em; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="../">&larr; The trip</a>
+      <p class="who-now" id="whoNow" hidden></p>
+    </div>
+    <div class="lock">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M50 2 L98 50 L50 98 L2 50 Z" fill="none" stroke="#C9A45C" stroke-width="1.5"/>
+        <text x="50" y="45" font-family="Cinzel, serif" font-size="21" fill="#C9A45C" text-anchor="middle">50</text>
+        <path d="M33 51 L67 51" stroke="#C9A45C" stroke-width="0.8"/>
+        <text x="50" y="72" font-family="Cinzel, serif" font-size="21" fill="#F3EEE4" text-anchor="middle">30</text>
+      </svg>
+      <div>
+        <p class="names">Sandra's 50th · Bray's 30th</p>
+        <p class="t">The Grand Tour</p>
+        <p class="d">October 16 to 29, 2027</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <form id="form" novalidate>
+    <h1>Tell us if you're coming</h1>
+    <p class="intro">Four quick questions. It takes about a minute, and you can change your answer anytime.</p>
+
+    <fieldset id="fsName">
+      <legend><span class="step">1 of 4</span>Who are you?</legend>
+      <div class="names-grid" id="names"></div>
+      <div id="nameAfter" hidden>
+        <label class="partner"><input type="checkbox" id="partnerBox" checked> <span id="partnerLabel">Same answer for my partner</span></label>
+        <p class="known" id="known" hidden></p>
+      </div>
+    </fieldset>
+
+    <fieldset id="fsAnswer">
+      <legend><span class="step">2 of 4</span>Are you in?</legend>
+      <div class="stack">
+        <button type="button" class="choice" data-answer="in" aria-pressed="false"><span class="tick"></span><span>I'm in<small>Plan on me.</small></span></button>
+        <button type="button" class="choice" data-answer="maybe" aria-pressed="false"><span class="tick"></span><span>Maybe<small>I'm interested and need to check a few things.</small></span></button>
+        <button type="button" class="choice" data-answer="no" aria-pressed="false"><span class="tick"></span><span>I can't make it<small>Not this time.</small></span></button>
+      </div>
+    </fieldset>
+
+    <fieldset id="fsBudget" hidden>
+      <legend><span class="step">3 of 4</span>How does the price feel?</legend>
+      <p class="hint">About $5,250 all in: the $3,050 trip, your flight, and spending money. Be honest, it helps us plan.</p>
+      <div class="stack">
+        <button type="button" class="choice" data-budget="comfortable" aria-pressed="false"><span class="tick"></span><span>That works for me</span></button>
+        <button type="button" class="choice" data-budget="stretch" aria-pressed="false"><span class="tick"></span><span>It's a stretch, but I'll make it work</span></button>
+        <button type="button" class="choice" data-budget="lower" aria-pressed="false"><span class="tick"></span><span>I'd need it to cost less</span></button>
+      </div>
+    </fieldset>
+
+    <fieldset id="fsExtras" hidden>
+      <legend><span class="step">4 of 4</span>Any extras you'd want?</legend>
+      <p class="hint">Pick any, or none. Nothing is booked or charged. We're just counting interest.</p>
+      <div class="extras" id="extras"></div>
+    </fieldset>
+
+    <fieldset id="fsNote">
+      <legend>Anything we should know?</legend>
+      <p class="hint">Optional. A question, a room need, anything.</p>
+      <label for="note" class="hint" hidden>Note</label>
+      <textarea id="note" maxlength="600"></textarea>
+    </fieldset>
+
+    <p class="promise"><b>This isn't a payment.</b> It tells us who to plan for. The $500 deposit comes in January, with the refund rules, before we book anything.</p>
+    <button type="submit" class="send" id="send" disabled>Send my answer</button>
+    <p class="need" id="need">Pick your name and an answer to send.</p>
+    <p class="err" id="err" role="alert" hidden></p>
+  </form>
+
+  <section class="done" id="done" hidden aria-live="polite">
+    <svg class="badge" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 2 L98 50 L50 98 L2 50 Z" fill="none" stroke="#C9A45C" stroke-width="1.5"/>
+      <text x="50" y="45" font-family="Cinzel, serif" font-size="21" fill="#9A7A3A" text-anchor="middle">50</text>
+      <path d="M33 51 L67 51" stroke="#C9A45C" stroke-width="0.8"/>
+      <text x="50" y="72" font-family="Cinzel, serif" font-size="21" fill="#141A2E" text-anchor="middle">30</text>
+    </svg>
+    <p class="big" id="doneTitle"></p>
+    <p id="doneText"></p>
+    <ul class="next" id="next"></ul>
+    <div class="after">
+      <button type="button" class="btn" id="change">Change my answer</button>
+      <a class="btn ghost" href="../">Back to the trip</a>
+    </div>
+  </section>
+
+</main>
+
+<p class="demo" id="demo" hidden>Demo</p>
+
+<script>
+const CONFIG = {
+  SUPABASE_URL: 'https://loxatsgwyaznuzldinto.supabase.co',
+  SUPABASE_KEY: 'sb_publishable_pF_udd7tZ4dWg_nI0wtPpQ_ZVyred4y',
+};
+
+const HOUSEHOLDS = [
+  ['Sandra', 'Brian'], ['Bray', 'Ali'], ['Gloria', 'Jerry'], ['Manny', 'Ivy'],
+  ['Luis', 'Anna'], ['Natalia', 'Anthony'], ['Hailey', 'Dacian'], ['Isaiah', 'Leah'],
+];
+const OFF_LIST = ['Ali'];   // answers through Bray's "same answer" box
+const EXTRAS = [
+  ['ams_room', 'Banks Mansion, Amsterdam', '+$370'], ['par_room', 'Duc de Saint-Simon, Paris', '+$330'],
+  ['luc_room', 'Art Deco Montana, Lucerne', '+$140'], ['champagne', 'Champagne in Reims', '$200'],
+  ['rigi', 'Up the Rigi', '$140'], ['truffle', 'Truffle hunt', '$185'], ['brunello', 'Brunello day', '$200'],
+  ['orcia', "Val d'Orcia", '$130'], ['cooking', 'Cooking class', '$140'], ['uffizi', 'Guided Uffizi', '$50'],
+  ['premium', 'Premium economy flights', '+$1,200'],
+];
+const ANSWER_WORD = { in: "I'm in", maybe: 'Maybe', no: "Can't make it" };
+
+const params = new URLSearchParams(location.search);
+const DEMO = params.has('demo') || !CONFIG.SUPABASE_KEY;
+const state = { name: null, answer: null, budget: null, extras: new Set() };
+
+const $ = (id) => document.getElementById(id);
+const partnerOf = (n) => (HOUSEHOLDS.find((h) => h.includes(n)) || []).find((p) => p !== n);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+
+async function rpc(fn, body) {
+  if (DEMO) {
+    const all = JSON.parse(store.get('gt-demo') || '{}');
+    if (fn === 'gt_my_response') return all[body.p_person] ? [all[body.p_person]] : [];
+    if (fn === 'gt_respond') {
+      all[body.p_person] = { person: body.p_person, answer: body.p_answer, budget: body.p_budget, extras: body.p_extras, note: body.p_note, updated_at: new Date().toISOString() };
+      store.set('gt-demo', JSON.stringify(all));
+      return null;
+    }
+  }
+  const res = await fetch(CONFIG.SUPABASE_URL + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { apikey: CONFIG.SUPABASE_KEY, Authorization: 'Bearer ' + CONFIG.SUPABASE_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(fn + ' ' + res.status);
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+function press(container, attr, value) {
+  container.querySelectorAll('[' + attr + ']').forEach((b) => b.setAttribute('aria-pressed', String(b.getAttribute(attr) === value)));
+}
+
+function render() {
+  const going = state.answer === 'in' || state.answer === 'maybe';
+  $('fsBudget').hidden = !going;
+  $('fsExtras').hidden = !going;
+  press($('names'), 'data-name', state.name);
+  press($('fsAnswer'), 'data-answer', state.answer);
+  press($('fsBudget'), 'data-budget', state.budget);
+  $('extras').querySelectorAll('[data-extra]').forEach((b) => b.setAttribute('aria-pressed', String(state.extras.has(b.dataset.extra))));
+  const partner = state.name && partnerOf(state.name);
+  $('nameAfter').hidden = !state.name;
+  $('partnerBox').parentElement.hidden = !partner;
+  if (partner) $('partnerLabel').textContent = 'Same answer for ' + partner;
+  const ready = Boolean(state.name && state.answer);
+  $('send').disabled = !ready;
+  $('need').hidden = ready;
+  $('whoNow').hidden = !state.name;
+  if (state.name) $('whoNow').innerHTML = 'Answering as ' + state.name + ' <button type="button" id="notMe">Not you?</button>';
+}
+
+async function pickName(name) {
+  state.name = name;
+  store.set('gt-name', name);
+  $('known').hidden = true;
+  render();
+  try {
+    const rows = await rpc('gt_my_response', { p_person: name });
+    const r = rows && rows[0];
+    if (r && state.name === name) {
+      state.answer = state.answer || r.answer;
+      state.budget = r.budget;
+      state.extras = new Set(r.extras || []);
+      $('note').value = r.note || '';
+      const when = new Date(r.updated_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      $('known').textContent = 'You answered "' + ANSWER_WORD[r.answer] + '" on ' + when + '. Change anything below and send it again.';
+      $('known').hidden = false;
+      render();
+    }
+  } catch (e) { /* no saved answer to show; the form still works */ }
+}
+
+function buildChoices() {
+  $('names').innerHTML = HOUSEHOLDS.flat().filter((n) => !OFF_LIST.includes(n))
+    .map((n) => '<button type="button" class="choice" data-name="' + n + '" aria-pressed="false"><span class="tick"></span><span>' + n + '</span></button>').join('');
+  $('extras').innerHTML = EXTRAS
+    .map(([id, label, price]) => '<button type="button" class="extra" data-extra="' + id + '" aria-pressed="false">' + label + ' <b>' + price + '</b></button>').join('');
+}
+
+function showDone(name, partner, answer) {
+  const both = partner ? name + ' and ' + partner : name;
+  const titles = { in: "You're in, " + both + '.', maybe: 'Got it, ' + both + '.', no: "We'll miss you, " + both + '.' };
+  const texts = {
+    in: "Thank you. It means a lot. Here's what happens next.",
+    maybe: "No pressure. We'll text you before January so you have what you need to decide.",
+    no: 'Thank you for letting us know. If anything changes, come back and update your answer.',
+  };
+  $('doneTitle').textContent = titles[answer];
+  $('doneText').textContent = texts[answer];
+  const steps = answer === 'no' ? [] : [
+    answer === 'in' ? ['Now', 'You get a gold mark on the guest list.'] : ['Now', "You're on our list of maybes. Only yeses are shown on the page."],
+    ['Early Dec', 'Flight fares open. We send the best routes from Tampa and Orlando.'],
+    ['By Jan 15', 'We ask for the $500 deposit, with the refund rules, then book the villa.'],
+    ['Feb to Aug', 'The rest in monthly payments, about $365 a month.'],
+  ];
+  $('next').innerHTML = steps.map(([w, t]) => '<li><span class="when">' + w + '</span><span>' + t + '</span></li>').join('');
+  $('next').hidden = steps.length === 0;
+  $('form').hidden = true;
+  $('done').hidden = false;
+  window.scrollTo(0, 0);
+  $('doneTitle').setAttribute('tabindex', '-1');
+  $('doneTitle').focus();
+}
+
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('button');
+  if (!t) return;
+  if (t.dataset.name) pickName(t.dataset.name);
+  else if (t.dataset.answer) { state.answer = t.dataset.answer; render(); }
+  else if (t.dataset.budget) { state.budget = t.dataset.budget; render(); }
+  else if (t.dataset.extra) { state.extras.has(t.dataset.extra) ? state.extras.delete(t.dataset.extra) : state.extras.add(t.dataset.extra); render(); }
+  else if (t.id === 'notMe') { store.del('gt-name'); state.name = null; state.answer = null; state.budget = null; state.extras.clear(); $('note').value = ''; $('known').hidden = true; render(); window.scrollTo(0, 0); }
+  else if (t.id === 'change') { $('done').hidden = true; $('form').hidden = false; window.scrollTo(0, 0); }
+});
+
+$('form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!state.name || !state.answer) return;
+  const partner = $('partnerBox').checked ? partnerOf(state.name) : null;
+  const going = state.answer !== 'no';
+  const body = (p) => ({
+    p_person: p, p_answer: state.answer, p_budget: going ? state.budget : null,
+    p_extras: going ? [...state.extras] : [], p_note: $('note').value,
+  });
+  $('err').hidden = true;
+  $('send').disabled = true;
+  $('send').textContent = 'Sending...';
+  try {
+    await rpc('gt_respond', body(state.name));
+    if (partner) await rpc('gt_respond', body(partner));
+    showDone(state.name, partner, state.answer);
+  } catch (err) {
+    $('err').textContent = "That didn't save. Check your signal and tap Send again. Your answers are still here.";
+    $('err').hidden = false;
+  } finally {
+    $('send').textContent = 'Send my answer';
+    render();
+  }
+});
+
+buildChoices();
+if (DEMO) $('demo').hidden = false;
+const a = params.get('a');
+if (['in', 'maybe', 'no'].includes(a)) state.answer = a;
+render();
+const remembered = store.get('gt-name');
+if (remembered && HOUSEHOLDS.flat().includes(remembered)) pickName(remembered);
+</script>
+</body>
+</html>

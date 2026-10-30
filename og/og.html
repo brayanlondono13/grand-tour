@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Link preview card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; }
+.card { width: 1200px; height: 630px; padding: 22px; background-color: #141A2E; background-image: linear-gradient(rgba(20, 26, 46, 0.8), rgba(20, 26, 46, 0.8)), url('https://images.unsplash.com/photo-1597933794920-a313c09b8022?w=1600&q=80&auto=format&fit=crop'); background-size: cover; background-position: center 40%; color: #F3EEE4; font-family: 'Cormorant Garamond', Georgia, serif; }
+.f1 { height: 100%; border: 2px solid #C9A45C; padding: 9px; }
+.f2 { height: 100%; border: 1px solid #C9A45C; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.names { font-family: 'Cinzel', serif; font-size: 24px; letter-spacing: 0.2em; color: #C9A45C; }
+.the { font-style: italic; font-size: 44px; line-height: 1; color: #C9A45C; margin-top: 18px; }
+h1 { margin: 2px 0 0; font-family: 'Cinzel', serif; font-weight: 500; font-size: 118px; line-height: 1; letter-spacing: 0.05em; }
+.sub { font-style: italic; font-size: 44px; color: #C9A45C; margin-top: 4px; }
+.route { position: relative; display: grid; grid-template-columns: repeat(4, 200px); margin-top: 34px; }
+.route::before { content: ''; position: absolute; left: 100px; right: 100px; top: 47px; height: 2px; background: #C9A45C; }
+.stop { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.stop .n { font-family: 'Cinzel', serif; font-size: 20px; letter-spacing: 0.12em; height: 24px; }
+.box { height: 34px; display: flex; align-items: center; justify-content: center; position: relative; }
+.dot { width: 16px; height: 16px; border-radius: 50%; background: #141A2E; border: 2px solid #F3EEE4; }
+.dot.big { width: 34px; height: 34px; border: 0; }
+.gold { background: #C9A45C; }
+.pearl { background: #F3EEE4; }
+.dates { font-size: 32px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="f1"><div class="f2">
+    <p class="names" style="margin: 0">SANDRA'S 50TH · BRAY'S 30TH</p>
+    <p class="the" style="margin-bottom: 0">The</p>
+    <h1>GRAND TOUR</h1>
+    <p class="sub" style="margin: 4px 0 0">in gold and pearl</p>
+    <div class="route">
+      <div class="stop"><span class="n">AMSTERDAM</span><span class="box"><span class="dot"></span></span></div>
+      <div class="stop"><span class="n">PARIS</span><span class="box"><span class="dot big gold"></span></span></div>
+      <div class="stop"><span class="n">LUCERNE</span><span class="box"><span class="dot"></span></span></div>
+      <div class="stop"><span class="n">TUSCANY</span><span class="box"><span class="dot big pearl"></span></span></div>
+    </div>
+    <p class="dates" style="margin-bottom: 0">October 16 to 29, 2027</p>
+  </div></div>
+</div>
+</body>
+</html>
